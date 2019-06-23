@@ -182,6 +182,11 @@ qq.extend(qq.FileUploaderInput.prototype, {
             asset.controller = (asset.type !== undefined && asset.type.toLowerCase() == "ckeditor::picture" ? "pictures" : "attachment_files");
 
             $(item).replaceWith($(this._options.template_id).tmpl(asset));
+
+            // Hack for Joynus
+            opener.$("select#post_preview_image_id").data('picker').destroy()
+            opener.$("select#post_preview_image_id option:eq(0)").after($('<option>', {value:asset.id, text:asset.url_content, 'data-img-src':asset.url_thumb}));
+            opener.$("select#post_preview_image_id").imagepicker()
         } else {
             qq.addClass(item, this._classes.fail);
         }
